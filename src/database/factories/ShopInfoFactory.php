@@ -17,7 +17,7 @@ class ShopInfoFactory extends Factory
         return [
             'shop_id'   => Shop::factory(),
             'post_code' => $this->faker->postcode(),
-            'address'   => $this->faker->address(),
+            'address'   => $this->faker->prefecture().$this->faker->city().$this->faker->streetAddress(),
             'content'   => $this->faker->realText($this->faker->numberBetween(10, 500)),
             'url'       => 'https://www.google.co.jp/',
             'tel'       => $this->faker->phoneNumber(),

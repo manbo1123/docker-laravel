@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\ParentCatController;
+use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +17,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
-});
+});*/
+Route::get('/category/{parent}/{child}', [CategoryController::class, 'show']);
+Route::get('/category/{parent}', [ParentCatController::class, 'show']);
+Route::get('/category', [ParentCatController::class, 'index']);
+
+Route::get('/{item}', [ItemController::class, 'show']);
+
+Route::get('shop/{shop}/item', [ShopController::class, 'showItem']);
+Route::get('shop/{shop}', [ShopController::class, 'show']);
+
+Route::get('/', [ItemController::class, 'index']);
