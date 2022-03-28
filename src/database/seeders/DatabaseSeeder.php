@@ -13,6 +13,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this -> call([
+            ParentCatsTableSeeder::class,
+            CategoriesTableSeeder::class,
+        ]);
+
         // \App\Models\User::factory(10)->create();
+        \App\Models\ShopInfo::factory(10)->create();
+        \App\Models\Item::factory(30)->create();
+        \App\Models\ItemImg::factory(150)->create();
     }
 }
