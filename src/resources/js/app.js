@@ -29,6 +29,7 @@ Vue.component('footer-component', require('./components/Organisms/Layouts/Footer
 // 商品
 Vue.component('item-list-component', require('./components/Templates/ItemList.vue').default);
 Vue.component('item-detail-component', require('./components/Templates/ItemDetail.vue').default);
+Vue.component('item-post-component', require('./components/Templates/ItemPost.vue').default);
 
 // カテゴリー
 Vue.component('category-list-component', require('./components/Organisms/CategoryList.vue').default);
@@ -36,6 +37,7 @@ Vue.component('category-items-component', require('./components/Templates/Catego
 // ショップ
 Vue.component('shop-detail-component', require('./components/Templates/ShopDetail.vue').default);
 Vue.component('shop-item-list-component', require('./components/Templates/ShopItemList.vue').default);
+Vue.component('shop-edit-component', require('./components/Templates/ShopEdit.vue').default);
 
 // Atoms
 Vue.component('scroll-top-btn-component', require('./components/Atoms/ScrollTopBtn.vue').default);
