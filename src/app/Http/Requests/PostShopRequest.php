@@ -24,8 +24,8 @@ class PostShopRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'      => 'required',
-            'email'     => 'required|email',
+            'name'      => 'required|min:1|max:30',
+            // 'email'     => 'required|email',
             'url'       => 'nullable|url|max:5000',
             'post_code' => 'nullable|integer|digits:7',
             'address'   => 'nullable|max:50',
@@ -37,8 +37,8 @@ class PostShopRequest extends FormRequest
     public function message() 
     {
         return [
-            'name.required' => 'ショップ名は必須です。',
-            'email.*'       => 'メール形式で入力してください。',
+            'name.required' => 'ショップ名は必須です（30文字以内）。',
+            // 'email.*'       => 'メール形式で入力してください。',
             'url.*'         => 'URL形式で:max文字以内で入力してください。',
             'post_code.*'   => '半角数字:digits文字で入力してください。',
             'address.*'     => ':attributeは:max文字以内で入力してください。',

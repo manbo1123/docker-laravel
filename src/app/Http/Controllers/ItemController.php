@@ -4,51 +4,37 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use App\Models\ItemImg;
-use Illuminate\Http\Request;
+use App\Services\ItemService;
+use App\Http\Requests\PostItemRequest;
 use Illuminate\Support\Facades\DB;
 
 class ItemController extends Controller {
-    public function index() {
-        $shop_items = Item::select('id', 'name', 'postage', 'price', 'category_id', 'shop_id')
-                            ->with('item_imgs:id,name,item_id')
-                            // ->where('relations.item_imgs', 0)
-                            ->take(15)->get();
+    protected $itemService;
+    public function __construct(ItemService $itemService) {
+        $this->itemService = $itemService;
+    }
 
-        $parent_cat = DB::table('parent_cats')->select('id', 'name', 'icon')->get();
-        return view('index', compact('shop_items', 'parent_cat'));
+    public function index() {
+        $shop_items = $this->itemService->fetchItems()->take(15)->get();
+        return view('index', compact('shop_items', ));
     }
 
     public function show($id) {
-        $shop_item = Item::where('id', $id)
-                            ->select('id', 'name', 'content', 'postage', 'price', 'category_id', 'shop_id')
-                            ->with([
-                                'category:id,name,parent_id', 
-                                'category.parent_cat:id,name', 
-                                'shop:id,name', 
-                                'shop.shop_info', 
-                                'item_imgs:id,name,item_id', 
-                            ])->first();
-        $parent_cat = DB::table('parent_cats')->select('id', 'name', 'icon', )->get();
-        return view('show', compact('shop_item', 'parent_cat'));
+        $shop_item = $this->itemService->fetchItemById($id);
+        return view('show', compact('shop_item', ));
     }
 
     public function create() {
-        $parent_cat = DB::table('parent_cats')->select('id', 'name', 'icon', )->get();
-        return view('new', compact('parent_cat'));
+        return view('new');
     }
 
-    public function store(Request $request) {
+    public function store(PostItemRequest $request) {
         try {
             $item_id = DB::transaction(function () use ($request) {
                 $item = new Item();
-                $item->fill([
-                    'name'          => $request->name,
-                    'content'       => $request->content,
-                    'postage'       => $request->postage,
-                    'price'         => $request->price,
-                    'category_id'   => $request->category,
-                    'shop_id'       => 1,
-                ])->save();
+                $item->fill(
+                    $this->itemService->itemAttributes($request, 1)
+                )->save();
 
                 $item_imgs = $request->file('item_img');
                 foreach($item_imgs as $item_img) {
@@ -67,6 +53,7 @@ class ItemController extends Controller {
             $flash_message = 'flash_message_success';
             $message = '商品を登録しました';
         } catch (Throwable $e) {
+            DB::rollback();
             $flash_message = 'flash_message';
             $message = '商品の登録に失敗しました';
         }

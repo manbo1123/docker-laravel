@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\ParentCatController;
 use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Route;
@@ -30,4 +31,7 @@ Route::get('/shop/{shop}/item', [ShopController::class, 'showItem'])->name('shop
 
 Route::resource('/', ItemController::class)->only(['index', 'create', 'store'])->names(['create' => 'new']);
 Route::get('/{item}', [ItemController::class, 'show'])->name('show');
+
+Route::post('/{item}/like', [LikeController::class, 'store'])->name('like');
+Route::post('/{item}/add', [CartController::class, 'add'])->name('cart.add');
 

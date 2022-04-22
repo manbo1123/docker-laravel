@@ -11,11 +11,12 @@
             :value="shop.name" 
         ></v-text-field>
 
-        <v-text-field required label="メールアドレス" name="email" 
+        <!-- <v-text-field required label="メールアドレス" name="email" 
             :counter="30"
             :rules="emailRules" 
             :value="shop.email" 
         ></v-text-field>
+        -->
 
         <v-text-field required label="郵便番号" name="post_code" 
             :counter="15"
@@ -92,10 +93,10 @@ export default {
                 v => !!v || 'ショップ名は必須です',
                 v => (v && v.length <= 30) || 'ショップ名は30文字以内で入力してください'
             ],
-            emailRules: [
+            /*emailRules: [
                 v => !!v || 'メールアドレスは必須です',
                 v => /.+@.+\..+/.test(v) || 'メール形式で入力してください'
-            ],
+            ],*/
             holidayList: ['月', '火', '水', '木', '金', '土', '日'],
             holidaySelected: this.holiday,
         }

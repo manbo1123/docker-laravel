@@ -21,5 +21,8 @@ class Item extends Model
     public function item_imgs() {
         return $this->hasMany('App\Models\ItemImg');
     }
+    public function likes() {
+        return $this->hasMany('App\Models\Like');
+    }
 
 }

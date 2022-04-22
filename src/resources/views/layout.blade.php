@@ -25,15 +25,18 @@
 <body>
     <div id="app">
         <v-app>
-            <header-component :parent-cat='@json($parent_cat)'></header-component>
-            coart_count
-            @if (session('flash_message'))
-                <div class="alert alert-danger m-0" role="alert">{{ session('flash_message') }}</div>
-            @elseif (session('flash_message_success'))
-                <div class="alert alert-success m-0" role="alert">{{ session('flash_message_success') }}</div>
-            @endif
+            <header-component 
+                :parent-cat='@json($parent_cat)' 
+                :coart-count='@json($coart_count ?? 0)'
+            ></header-component>
 
             <v-main class='bg-light'>
+                @if (session('flash_message'))
+                    <div class="alert alert-danger m-0" role="alert">{{ session('flash_message') }}</div>
+                @elseif (session('flash_message_success'))
+                    <div class="alert alert-success m-0" role="alert">{{ session('flash_message_success') }}</div>
+                @endif
+
                 @yield('content')
             </v-main>
             <scroll-top-btn-component></scroll-top-btn-component>
