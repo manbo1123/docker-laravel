@@ -24,24 +24,38 @@
                 hide-details="false" 
                 class="hidden-sm-and-down serch_box rounded-0"
             >
-                    <template v-slot:append-outer>
-                        <v-btn depressed large dense dark 
-                            color="amber lighten-1"
-                            height="48"
-                            style="border-radius: 0 3px 3px 0;"
-                        >
-                            <v-icon>mdi-magnify</v-icon>
-                        </v-btn>
-                    </template>
-                </v-text-field>
+                <template v-slot:append-outer>
+                    <v-btn depressed large dense dark 
+                        color="amber lighten-1"
+                        height="48"
+                        style="border-radius: 0 3px 3px 0;"
+                    >
+                        <v-icon>mdi-magnify</v-icon>
+                    </v-btn>
+                </template>
+            </v-text-field>
 
+            <v-badge overlap 
+                v-if="coartCount > 0"
+                :content="coartCount"
+                color="orange" 
+            >
                 <v-btn plain x-small
-                    v-for="item in items" :key="item.text" 
-                    :href="item.link"
+                    :href="cart.link"
                     class="hidden-sm-and-down header_btn h-100 text-decoration-none text-center"
                 >
-                    <v-icon>{{ item.icon }}</v-icon><br>
-                    {{ item.text }}
+                    <v-icon>{{ cart.icon }}</v-icon><br>
+                    {{ cart.text }}
+                </v-btn>
+            </v-badge>
+
+            <v-btn plain x-small
+                v-for="item in items" :key="item.text" 
+                :href="item.link"
+                class="hidden-sm-and-down header_btn h-100 text-decoration-none text-center"
+            >
+                <v-icon>{{ item.icon }}</v-icon><br>
+                {{ item.text }}
             </v-btn>
 
             <v-app-bar-nav-icon plain
@@ -66,12 +80,13 @@ export default {
     data() {
         return {
             drawer: false,
+            cart: {
+                icon: 'mdi-cart-outline',
+                text: 'カート',
+                link: '/mypage/cart',
+            },
             items: [
                 {
-                    icon: 'mdi-cart-outline',
-                    text: 'カート',
-                    link: 'https://qiita.com/',
-                }, {
                     icon: 'mdi-heart',
                     text: 'お気に入り',
                     link: 'https://qiita.com/',
@@ -88,7 +103,8 @@ export default {
         }
     },
     props: {
-        parentCat: Array
+        parentCat: Array,
+        coartCount: Number,
     }
 };
 </script>
