@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ParentCatController;
@@ -30,3 +31,8 @@ Route::get('shop/{shop}/item', [ShopController::class, 'showItem']);
 Route::get('shop/{shop}', [ShopController::class, 'show']);
 
 Route::get('/', [ItemController::class, 'index']);
+
+// Route::resource('/mypage/cart', CartController::class)->only(['show', 'destroy', ]);
+Route::delete('/mypage/cart/{item}', [CartController::class, 'destroy'])->name('cart.destroy');
+Route::get('/mypage/cart', [CartController::class, 'show'])->name('cart.show');
+

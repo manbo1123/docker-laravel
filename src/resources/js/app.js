@@ -33,6 +33,10 @@ Vue.component('item-detail-component', require('./components/Templates/ItemDetai
 // カテゴリー
 Vue.component('category-list-component', require('./components/Organisms/CategoryList.vue').default);
 Vue.component('category-items-component', require('./components/Templates/CategoryItems.vue').default);
+
+// カート
+Vue.component('cart-component', require('./components/Organisms/Cart.vue').default);
+
 // ショップ
 Vue.component('shop-detail-component', require('./components/Templates/ShopDetail.vue').default);
 Vue.component('shop-item-list-component', require('./components/Templates/ShopItemList.vue').default);
