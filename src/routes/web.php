@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\LikeController;
@@ -35,3 +36,8 @@ Route::get('/{item}', [ItemController::class, 'show'])->name('show');
 Route::post('/{item}/like', [LikeController::class, 'store'])->name('like');
 Route::post('/{item}/add', [CartController::class, 'add'])->name('cart.add');
 
+Route::get('/', [ItemController::class, 'index']);
+
+// Route::resource('/mypage/cart', CartController::class)->only(['show', 'destroy', ]);
+Route::delete('/mypage/cart/{item}', [CartController::class, 'destroy'])->name('cart.destroy');
+Route::get('/mypage/cart', [CartController::class, 'show'])->name('cart.show');

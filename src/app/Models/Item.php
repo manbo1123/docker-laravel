@@ -24,5 +24,8 @@ class Item extends Model
     public function likes() {
         return $this->hasMany('App\Models\Like');
     }
+    public function carts() {
+        return $this->hasMany('App\Models\Cart');
+    }
 
 }
