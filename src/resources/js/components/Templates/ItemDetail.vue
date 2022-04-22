@@ -56,13 +56,15 @@
 
                         <div class="d-flex">
                             <v-text-field solo flat outlined dense
+                                v-model="itemCount"
                                 hide-details="false" 
-                                value="1" 
+
                                 class="mr-1 rounded-0"
                                 style="max-width: 60px;"
                             ></v-text-field>
 
                             <v-btn rounded depressed 
+                                @click="addCart(shopItem.id)" 
                                 color="amber"
                                 class="col mx-auto font-weight-bold text-dark"
                                 style="max-width: 400px;"
@@ -72,7 +74,16 @@
                         </div>
 
                         <div class="my-2 d-flex justify-content-center">
-                            <v-btn rounded depressed small class="border mr-1 w-50">お気に入り追加</v-btn>
+                            <v-btn rounded depressed small 
+                                @click="likePost(shopItem.id)" 
+                                class="border mr-1 w-50
+                            ">
+                                <v-icon small 
+                                    class="text-secondary"
+                                    :class="{is_like: isLike}"
+                                >mdi-heart</v-icon>
+                                お気に入り追加
+                            </v-btn>
                             <v-btn rounded depressed small class="border w-50">商品について質問する</v-btn>
                         </div>
 
@@ -219,6 +230,8 @@ export default {
                     content: 'とても悪いです。。。とても悪いです。。。とても悪いです。。。'
                 },
             ],
+            itemCount: 1,
+            isLike: false,
         }
     },
     computed: {
@@ -238,6 +251,23 @@ export default {
             let imgUrl = e.target.getAttribute("src");
             this.hoverFlag = true
             this.hoverItem = imgUrl;
+        },
+        likePost(item) {
+            axios.post(item + '/like').then(function(responce) {
+                this.isLike = responce.data;
+            }.bind(this)).catch(function(error) {
+                console.log('お気に入り登録できませんでした');
+            });
+        },
+        addCart(item) {
+            let itemCount = {'count': this.itemCount};
+
+            axios.post(item + '/add', itemCount).then(function(responce) {
+                this.inCart = responce.data;
+                console.log('カートに追加しました');
+            }.bind(this)).catch(function(error) {
+                console.log('カートに追加できませんでした');
+            });
         }
     },
 }
@@ -246,5 +276,9 @@ export default {
 <style>
 .item_img:hover {
     opacity: 0.4;
+}
+
+.is_like {
+    color: #FF6666 !important;
 }
 </style>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\ParentCatController;
 use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Route;
@@ -20,13 +21,17 @@ use Illuminate\Support\Facades\Route;
 /*Route::get('/', function () {
     return view('welcome');
 });*/
-Route::get('/category/{parent}/{child}', [CategoryController::class, 'show']);
-Route::get('/category/{parent}', [ParentCatController::class, 'show']);
-Route::get('/category', [ParentCatController::class, 'index']);
+Route::get('/category/getChildren/{parent}', [CategoryController::class, 'getFieldchildren']);
+Route::get('/category/{parent}/{child}', [CategoryController::class, 'show'])->name('category.show');
+Route::get('/category/{parent}', [ParentCatController::class, 'show'])->name('category.parent.show');
+Route::get('/category', [ParentCatController::class, 'index'])->name('category.parent.index');
 
-Route::get('/{item}', [ItemController::class, 'show']);
+Route::resource('/shop', ShopController::class)->except(['index', 'destroy', ])->names(['create' => 'shop.new']);
+Route::get('/shop/{shop}/item', [ShopController::class, 'showItem'])->name('shop.item');
 
-Route::get('shop/{shop}/item', [ShopController::class, 'showItem']);
-Route::get('shop/{shop}', [ShopController::class, 'show']);
+Route::resource('/', ItemController::class)->only(['index', 'create', 'store'])->names(['create' => 'new']);
+Route::get('/{item}', [ItemController::class, 'show'])->name('show');
 
-Route::get('/', [ItemController::class, 'index']);
+Route::post('/{item}/like', [LikeController::class, 'store'])->name('like');
+Route::post('/{item}/add', [CartController::class, 'add'])->name('cart.add');
+

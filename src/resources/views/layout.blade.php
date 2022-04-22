@@ -15,6 +15,9 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">        <!-- グーグルフォント -->
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">    <!-- マテリアルデザインアイコン -->
 
+    <script src="https://cdn.jsdelivr.net/npm/vue2-timepicker@1.1.5/dist/VueTimepicker.umd.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/vue2-timepicker@1.1.5/dist/VueTimepicker.css" rel="stylesheet">
+
     <title>Amazoneショッピング</title>
     <meta name="description" content="カテゴリ別に商品を探せます。価格比較も可能。">
 </head>
@@ -22,8 +25,18 @@
 <body>
     <div id="app">
         <v-app>
-            <header-component :parent-cat='@json($parent_cat)'></header-component>
+            <header-component 
+                :parent-cat='@json($parent_cat)' 
+                :coart-count='@json($coart_count ?? 0)'
+            ></header-component>
+
             <v-main class='bg-light'>
+                @if (session('flash_message'))
+                    <div class="alert alert-danger m-0" role="alert">{{ session('flash_message') }}</div>
+                @elseif (session('flash_message_success'))
+                    <div class="alert alert-success m-0" role="alert">{{ session('flash_message_success') }}</div>
+                @endif
+
                 @yield('content')
             </v-main>
             <scroll-top-btn-component></scroll-top-btn-component>
